@@ -36,7 +36,7 @@ export class DynamicsClient {
   }
 
   patch(path: string, value: any) {
-    if (path.indexOf("Cwl.Advise.") !== -1) {
+    if (path.indexOf(".Advise.") !== -1) {
       const paths = this.cw2helper.getPaths(this.context, path);
 
       paths.map((path: string) => {
