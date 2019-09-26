@@ -1,0 +1,18 @@
+{
+  "name": "arrigo-gql",
+  "version": "1.0.0",
+  "description": "Arrigo dynamics client",
+  "main": "dist/index.js",
+  "author": "RS Software AB",
+  "license": "SEE LICENSE IN LICENSE.txt",
+  "scripts": {
+    "test": "node dist/index.js",
+    "start": "tsc -w | nodemon dist/index.js --watch dist/**/*.js",
+    "compile": "yarn tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.18.10",
+    "typescript": "^3.4.1"
+  }
+}
