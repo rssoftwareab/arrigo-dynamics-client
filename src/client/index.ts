@@ -1,26 +1,21 @@
-import { JsonHelper } from "./jsonHelper";
 import { Cw2Helper } from "./cw2helper";
+import { IDynamicsClientOptions } from "./IDynamicsClientOptions";
+import { JsonHelper } from "./jsonHelper";
 
-export class DynamicsClientOptions {
-  type: string;
-  initialObject: any;
-  onNewData: (path: string, value: any) => void;
-}
 export class DynamicsClient {
-  onCallbacks: {
+  public onCallbacks: {
     [index: string]: Array<(event: string, payload: any) => void>;
   } = {
-    error: [],
-    data: []
+    data: [],
+    error: []
   };
   private context: any = null;
-  private options: DynamicsClientOptions;
+  private options: IDynamicsClientOptions;
   private jsonHelper: JsonHelper = new JsonHelper();
   private cw2helper: Cw2Helper = new Cw2Helper();
 
-  initialize(options: DynamicsClientOptions) {
-    const opts: DynamicsClientOptions = options || {
-      type: "",
+  public initialize(options: IDynamicsClientOptions) {
+    const opts: IDynamicsClientOptions = options || {
       initialObject: {},
       onNewData: null
     };
@@ -35,20 +30,24 @@ export class DynamicsClient {
     );
   }
 
-  patch(path: string, value: any) {
+  public patch(path: string, value: any) {
     if (path.indexOf(".Advise.") !== -1) {
       const paths = this.cw2helper.getPaths(this.context, path);
 
-      paths.map((path: string) => {
-        this.jsonHelper.set(this.context, path, value);
+      paths.map((p: string) => {
+        this.jsonHelper.set(this.context, p, value);
       });
       return;
     }
     this.jsonHelper.set(this.context, path, value);
   }
-  on(_event: string, _callback: (event: string, payload: any) => void) {
-    const listeners = this.onCallbacks[_event];
-    if (!listeners) throw new Error("unknown event type " + _event);
-    if (listeners.indexOf(_callback) === -1) listeners.push(_callback);
+  public on(event: string, callback: (event: string, payload: any) => void) {
+    const listeners = this.onCallbacks[event];
+    if (!listeners) {
+      throw new Error("unknown event type " + event);
+    }
+    if (listeners.indexOf(callback) === -1) {
+      listeners.push(callback);
+    }
   }
 }

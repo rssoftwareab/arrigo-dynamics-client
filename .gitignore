@@ -43,8 +43,6 @@ typings/
 .next
 
 # Application specific files
-dist/
-acfiles
+lib/
+
 package-lock.json
-secrets.json
-src/schema.gql
