@@ -19,7 +19,8 @@
     "prepublishOnly": "yarn test && yarn run lint",
     "preversion": "yarn run lint",
     "version": "yarn run format && git add -A src",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "deploy": "copy package.json lib/package.json && cd lib && npm publish && cd .."
   },
   "dependencies": {},
   "devDependencies": {
