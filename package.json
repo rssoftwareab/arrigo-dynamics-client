@@ -12,6 +12,7 @@
   "scripts": {
     "test": "jest --config jestconfig.json",
     "start": "tsc -w | nodemon lib/test/testscript.js --watch lib/**/*.js",
+    "example": "tsc -w | nodemon lib/examples/index.js --watch lib/**/*.js",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json --fix",
     "build": "yarn tsc",
@@ -22,9 +23,15 @@
     "postversion": "git push && git push --tags",
     "deploy": "copy package.json lib/package.json && cd lib && npm publish && cd .."
   },
-  "dependencies": {},
+  "dependencies": {
+    "apollo-cache-inmemory": "^1.6.3",
+    "apollo-client": "^2.6.4",
+    "apollo-link-http": "^1.5.16",
+    "node-fetch": "^2.6.0"
+  },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "@types/node-fetch": "^2.5.2",
     "jest": "^24.9.0",
     "nodemon": "^1.18.10",
     "prettier": "^1.18.2",

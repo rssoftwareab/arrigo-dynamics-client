@@ -2,6 +2,12 @@
 
 All live data views from Arrigo is divided in two parts. One initial payload with the object structure, and one with the updates.
 Both makes use of the graphQL API.
+Find a graphQL query which responds with a reference to a dynamics instance, for example a list of variables:
+
+````
+query folder(id:"someId"){
+
+}
 
 The `initialize` method is used to prepare the DynamicsClient with initial data.
 The `patch` method updates the data structure.
@@ -23,4 +29,4 @@ client.initialize({
 client.patch("Cwl.Advise.A[0]", "23.5");
 
 console.log("done", TestData);
-```
+````

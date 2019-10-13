@@ -31,6 +31,11 @@ export class DynamicsClient {
   }
 
   public patch(path: string, value: any) {
+    if (!this.context) {
+      throw new Error(
+        "No object to patch. Initialize was called without a initialObject or a client object"
+      );
+    }
     if (path.indexOf(".Advise.") !== -1) {
       const paths = this.cw2helper.getPaths(this.context, path);
 
