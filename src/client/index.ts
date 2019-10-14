@@ -1,7 +1,12 @@
 import { Cw2Helper } from "./cw2helper";
 import { IDynamicsClientOptions } from "./IDynamicsClientOptions";
 import { JsonHelper } from "./jsonHelper";
-
+export class OnDataPayload {
+  path: string;
+  newValue: any;
+  oldValue: any;
+  lastObject: any;
+}
 export class DynamicsClient {
   public onCallbacks: {
     [index: string]: Array<(event: string, payload: any) => void>;
@@ -22,9 +27,9 @@ export class DynamicsClient {
     this.options = opts;
     this.context = this.options.initialObject;
     this.jsonHelper.onReplace(
-      (value: any, currentValue: any, lastObject: any) => {
+      (path: string, newValue: any, oldValue: any, lastObject: any) => {
         this.onCallbacks.data.forEach(cb =>
-          cb.apply(this, ["replace", { value, currentValue, lastObject }])
+          cb.apply(this, ["replace", { path, newValue, oldValue, lastObject }])
         );
       }
     );
@@ -46,7 +51,10 @@ export class DynamicsClient {
     }
     this.jsonHelper.set(this.context, path, value);
   }
-  public on(event: string, callback: (event: string, payload: any) => void) {
+  public on(
+    event: string,
+    callback: (event: string, payload: OnDataPayload) => void
+  ) {
     const listeners = this.onCallbacks[event];
     if (!listeners) {
       throw new Error("unknown event type " + event);

@@ -1,22 +1,28 @@
 type OnReplaceFunction = (
-  value: any,
-  currentValue: any,
+  path: string,
+  newValue: any,
+  oldValue: any,
   lastObject: any
 ) => void;
 export class JsonHelper {
   private onReplaceCallback: OnReplaceFunction;
 
   public get(obj: any, path: string) {
-    return this.find(obj, path);
+    return this._find(obj, path, path, null);
   }
   public set(obj: any, path: string, value: any) {
-    return this.find(obj, path, value); // setvalue.
+    return this._find(obj, path, path, value); // setvalue.
   }
   public onReplace(replacer: OnReplaceFunction) {
     this.onReplaceCallback = replacer;
   }
 
-  private find(obj: any, path: string | string[], value?: any): any {
+  private _find(
+    obj: any,
+    path: string | string[],
+    orignalPath: string,
+    value?: any
+  ): any {
     const parts: string[] = typeof path === "string" ? path.split(".") : path;
     const key: string = parts[0];
     // check if part is key
@@ -36,6 +42,7 @@ export class JsonHelper {
     if (parts.length === 1) {
       if (value && this.onReplaceCallback) {
         this.onReplaceCallback.apply(this, [
+          orignalPath,
           value,
           lastObject[lastKey],
           lastObject
@@ -44,7 +51,7 @@ export class JsonHelper {
       }
       return target;
     } else {
-      return this.find(target, parts.slice(1), value);
+      return this._find(target, parts.slice(1), orignalPath, value);
     }
   }
 }

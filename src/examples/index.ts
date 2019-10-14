@@ -1,11 +1,10 @@
-//import { DynamicsClient } from "../client";
-
 import { login, gqlquery } from "./APIhelper";
 import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 import { WebSocketLink } from "apollo-link-ws";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import WebSocket from "ws";
+import { DynamicsClient, OnDataPayload } from "../client";
 
 async function run() {
   const authToken = await login("", "ReginSe", "exo");
@@ -60,14 +59,25 @@ async function run() {
     }
   }`;
 
+  const dynamicsClient = new DynamicsClient();
+  dynamicsClient.initialize({
+    initialObject: content,
+    onNewData: console.log
+  });
+
+  dynamicsClient.on("data", (_event: string, payload: OnDataPayload) => {
+    console.log(
+      `New data: path:${payload.path}, newValue:${payload.newValue}, oldValue:${payload.oldValue}`
+    );
+  });
+
   const observer = client.subscribe({
     query: subscriptionQuery
   });
-  console.log(subscriptionQuery);
 
   observer.subscribe({
     next(data) {
-      console.log("data", `${data.data.data.path}:${data.data.data.value}`);
+      dynamicsClient.patch(data.data.data.path, data.data.data.value);
     },
     error(err) {
       console.error("err", err);
