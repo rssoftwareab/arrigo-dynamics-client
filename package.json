@@ -27,11 +27,19 @@
     "apollo-cache-inmemory": "^1.6.3",
     "apollo-client": "^2.6.4",
     "apollo-link-http": "^1.5.16",
-    "node-fetch": "^2.6.0"
+    "apollo-link-ws": "^1.0.19",
+    "graphql": "^14.5.8",
+    "graphql-tag": "^2.10.1",
+    "node-fetch": "^2.6.0",
+    "subscriptions-transport-ws": "^0.9.16",
+    "websocket": "^1.0.30",
+    "ws": "^7.1.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "@types/node-fetch": "^2.5.2",
+    "@types/websocket": "0.0.40",
+    "@types/ws": "^6.0.3",
     "jest": "^24.9.0",
     "nodemon": "^1.18.10",
     "prettier": "^1.18.2",

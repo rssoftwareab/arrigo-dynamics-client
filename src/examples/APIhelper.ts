@@ -29,7 +29,7 @@ export async function login(
   return authToken;
 }
 
-export async function gql(query: string, authToken: string) {
+export async function gqlquery(query: string, authToken: string) {
   return fetch("https://services.regin.se/ci/eos_beta/api/graphql", {
     body: JSON.stringify({
       query: query,
