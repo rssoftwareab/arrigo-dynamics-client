@@ -12,8 +12,8 @@ export async function login(
     {
       body: JSON.stringify({
         account,
+        password,
         username,
-        password
       }),
       headers: {
         "Content-Type": "application/json"
@@ -32,13 +32,13 @@ export async function login(
 export async function gqlquery(query: string, authToken: string) {
   return fetch("https://services.regin.se/ci/eos_beta/api/graphql", {
     body: JSON.stringify({
-      query: query,
+      operationname: null,
+      query,
       variables: null,
-      operationname: null
     }),
     headers: {
+      Authorization: "Bearer " + authToken,
       "Content-Type": "application/json",
-      Authorization: "Bearer " + authToken
     },
     method: "POST"
   })

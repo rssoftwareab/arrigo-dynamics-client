@@ -1,10 +1,11 @@
-import { login, gqlquery } from "./APIhelper";
-import { ApolloClient } from "apollo-client";
-import gql from "graphql-tag";
-import { WebSocketLink } from "apollo-link-ws";
 import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloClient } from "apollo-client";
+import { WebSocketLink } from "apollo-link-ws";
+import gql from "graphql-tag";
 import WebSocket from "ws";
-import { DynamicsClient, OnDataPayload } from "../client";
+import { DynamicsClient } from "../client";
+import { OnDataPayload } from "../client/OnDataPayload"
+import { gqlquery, login } from "./APIhelper";
 
 async function run() {
   const authToken = await login("", "ReginSe", "exo");
@@ -12,16 +13,16 @@ async function run() {
   console.log(authToken);
   const res = await gqlquery(
     `{
-  folder(id: "QXJlYV9B") {
-    name
-    ...on UserArea {
-      publicVariableList {
+      folder(id: "QXJlYV9B") {
         name
-        uid
-      }		
-    }
-  }
-}`,
+        ...on UserArea {
+          publicVariableList {
+            name
+            uid
+          }		
+        }
+      }
+    }`,
     authToken
   );
 
@@ -32,6 +33,7 @@ async function run() {
     `{data(uid:"${pvl.uid}"){content}}`,
     authToken
   );
+  
   const content = fileQuery.data.data.content;
   console.log("filecontent", content);
 
@@ -45,8 +47,8 @@ async function run() {
   });
 
   const client = new ApolloClient({
+    cache: new InMemoryCache(),
     link,
-    cache: new InMemoryCache()
   });
 
   const subscriptionQuery = gql`
