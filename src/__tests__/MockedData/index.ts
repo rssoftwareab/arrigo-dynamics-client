@@ -1,4 +1,4 @@
-export const TestData: any = {
+export const MockedData: any = {
   Cwl: {
     type: "PublishedVariables",
     attributes: {
