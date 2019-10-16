@@ -1,15 +1,16 @@
-import { TestData } from "../test";
-import { DynamicsClient } from "../client";
+import { DynamicsClient } from "../client"
+import { MockedData } from "./MockedData/index"
+
 const client = new DynamicsClient();
 client.on("error", console.log);
 
-const dataCallbacks: Array<any> = [];
+const dataCallbacks: any[] = [];
 client.on("data", (_event: string, payload: any) => {
   dataCallbacks.push(payload);
 });
 
 client.initialize({
-  initialObject: TestData,
+  initialObject: MockedData,
   onNewData: (path: string, value: any) => {
     console.log(path, value);
   }
