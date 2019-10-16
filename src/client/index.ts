@@ -1,12 +1,8 @@
-import { Cw2Helper } from "./cw2helper";
+import { Cw2Helper } from "./helpers/cw2helper";
+import { JsonHelper } from "./helpers/jsonHelper";
 import { IDynamicsClientOptions } from "./IDynamicsClientOptions";
-import { JsonHelper } from "./jsonHelper";
-export class OnDataPayload {
-  path: string;
-  newValue: any;
-  oldValue: any;
-  lastObject: any;
-}
+import { OnDataPayload } from "./OnDataPayload"
+
 export class DynamicsClient {
   public onCallbacks: {
     [index: string]: Array<(event: string, payload: any) => void>;
